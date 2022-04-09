@@ -7,7 +7,7 @@
 <script>
 
 export default {
-  name: 'SingleUser',
+  name: 'User',
   data() {
   },
   computed: {
