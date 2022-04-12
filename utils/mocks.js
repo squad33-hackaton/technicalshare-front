@@ -2,15 +2,15 @@ export const users =  [
   {
     id: 1,
     name: "Murillo Bazilio",
-    email: "",
+    email: "murillobazilio@gmail.com",
     isMentor: true,
     position: "Front-end",
     level: "Pleno",
     techs: ["Vue.js", "Javascript", "HTML", "CSS", "MongoDB", "NuxtJS"],
     links: {
-      linkedin: "",
-      teams: "",
-      whatsapp: ""
+      linkedin: "https://www.linkedin.com/in/murillobazilio/",
+      teams: "https://www.microsoft.com/pt-br/microsoft-teams/log-in",
+      whatsapp: "https://wa.me/5521999775003"
     },
     picture: ""
   },
