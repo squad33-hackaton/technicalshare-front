@@ -5,11 +5,20 @@
   >
     <form>
       <div class="form-group">
-        <label for="name" class="form-title">Qual o seu nome?</label>
-        <input type="text" class="form-control" id="name" v-model="name" />
+        <label for="name" class="form-title"
+          >Qual o seu nome? <small>*</small></label
+        >
+        <input
+          required
+          type="text"
+          class="form-control"
+          id="name"
+          v-model="name"
+        />
       </div>
       <div class="form-group">
-        <label for="name" class="form-title">Com o que você trabalha?</label
+        <label for="position" class="form-title"
+          >Com o que você trabalha? <small>*</small></label
         ><br />
         <div
           class="form-check form-check-inline mb-2 position-input"
@@ -22,6 +31,7 @@
             id="frontend"
             value="Front-end"
             v-model="position"
+            required
           />
           <label class="form-check-label" for="frontend">Front-end</label>
         </div>
@@ -36,6 +46,7 @@
             id="backend"
             value="Back-end"
             v-model="position"
+            required
           />
           <label class="form-check-label" for="backend">Back-end</label>
         </div>
@@ -50,6 +61,7 @@
             id="fullstack"
             value="Full Stack"
             v-model="position"
+            required
           />
           <label class="form-check-label" for="fullstack">Full Stack</label>
         </div>
@@ -64,6 +76,7 @@
             id="ux"
             value="UX Design"
             v-model="position"
+            required
           />
           <label class="form-check-label" for="ux">UX Design</label>
         </div>
@@ -78,6 +91,7 @@
             id="ui"
             value="UI Design"
             v-model="position"
+            required
           />
           <label class="form-check-label" for="ui">UI Design</label>
         </div>
@@ -92,13 +106,14 @@
             id="ux/ui"
             value="UX/UI Design"
             v-model="position"
+            required
           />
           <label class="form-check-label" for="ux/ui">UX/UI Design</label>
         </div>
       </div>
       <div class="form-group">
         <label for="name" class="form-title"
-          >Qual o seu nível de senioridade?</label
+          >Qual o seu nível de senioridade? <small>*</small></label
         ><br />
         <div
           class="form-check form-check-inline mb-2 level-input"
@@ -111,6 +126,7 @@
             id="trainee"
             value="Trainee"
             v-model="level"
+            required
           />
           <label class="form-check-label" for="trainee">Trainee</label>
         </div>
@@ -125,6 +141,7 @@
             id="junior"
             value="Júnior"
             v-model="level"
+            required
           />
           <label class="form-check-label" for="junior">Júnior</label>
         </div>
@@ -139,6 +156,7 @@
             id="pleno"
             value="Pleno"
             v-model="level"
+            required
           />
           <label class="form-check-label" for="pleno">Pleno</label>
         </div>
@@ -153,12 +171,14 @@
             id="senior"
             value="Sênior"
             v-model="level"
+            required
           />
           <label class="form-check-label" for="senior">Sênior</label>
         </div>
       </div>
       <div class="form-group">
-        <label for="name" class="form-title">Você se dispõe a ser mentor?</label
+        <label for="name" class="form-title"
+          >Você se dispõe a ser mentor? <small>*</small></label
         ><br />
         <div
           class="form-check form-check-inline mb-2 mentor-input"
@@ -171,6 +191,7 @@
             id="yes"
             :value="true"
             v-model="isMentor"
+            required
           />
           <label class="form-check-label" for="yes">Sim</label>
         </div>
@@ -185,13 +206,14 @@
             id="no"
             :value="false"
             v-model="isMentor"
+            required
           />
           <label class="form-check-label" for="no">Não</label>
         </div>
       </div>
       <div class="form-group">
         <label for="tech" class="form-title mb-0"
-          >Quais ferramentas você domina?</label
+          >Quais ferramentas você domina? <small>*</small></label
         >
         <input
           type="text"
@@ -199,6 +221,7 @@
           id="tech"
           v-model="techs"
           placeholder="Utilize apenas vírgulas (sem espaços) para separar as ferramentas."
+          required
         />
       </div>
       <div class="form-group">
@@ -214,7 +237,12 @@
           />
         </div>
         <div class="d-flex align-items-center mb-2" style="gap: 1ch">
-          <font-awesome-icon icon="fab fa-microsoft" style="font-size: 32px" />
+          <img
+            src="~/assets/teams.svg"
+            alt="Logo do Microsoft Teams"
+            height="28px"
+            width="28px"
+          />
           <input
             type="text"
             class="form-control"
@@ -234,13 +262,17 @@
           />
         </div>
       </div>
-      <!-- Inserir type=submit aqui para enviar o form caso necessário -->
     </form>
-    <button @click="submitTest" class="form-btn">Salvar</button>
+    <button @click="submit" class="form-btn mb-3">Salvar</button>
+    <p style="text-align: center; color: #aaa">
+      <small>Os campos marcados com * são obrigatórios.</small>
+    </p>
   </div>
 </template>
 
 <script>
+import swal from "sweetalert2";
+
 export default {
   name: "Cadastro",
   data() {
@@ -250,7 +282,7 @@ export default {
       isMentor: false,
       position: "",
       level: "",
-      techs: [""],
+      techs: "",
       links: {
         linkedin: "",
         teams: "",
@@ -260,16 +292,31 @@ export default {
     };
   },
   methods: {
-    submitTest() {
-      //TODO -> this.techs tem que dar Array.split(',').
-      console.log(this.name);
-      console.log(this.position);
-      console.log(this.level);
-      console.log(this.mentor);
-      console.log(this.email);
-      // console.log(this.techs.split(","));
-      console.log(this.links);
+    submit() {
+      if (!this.email) this.$router.push("/");
+      if (this.name && this.position && this.level) {
+        let params = {
+          name: this.name,
+          email: this.email,
+          isMentor: this.isMentor,
+          position: this.position,
+          level: this.level,
+          techs: this.techs.split(","),
+          links: this.links,
+          //picture: this.picture
+        };
+        console.log(params);
+      } else {
+        swal.fire({
+          icon: "error",
+          title: "Ops...",
+          text: "Preencha todos os campos obrigatórios para prosseguir!",
+          footer:
+            "<i><small>Campos obrigatórios são marcados com asterisco.</small></i>",
+        });
+      }
     },
+    //As funções abaixo são claramente refatoráveis.
     selectPosition(id) {
       let allPositions = document.querySelectorAll(".position-input");
       allPositions.forEach((element) => {
