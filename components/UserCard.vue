@@ -7,7 +7,7 @@
       <p class="user-card-title">{{ username }}</p>
       <p class="user-card-subtext">{{ position }} {{ level }}</p>
       <p class="user-card-techs">
-        <small>{{ techs.join(", ") }}</small>
+        <small>{{ techs.split(",").join(", ") }}</small>
       </p>
     </div>
   </div>
@@ -34,7 +34,7 @@ export default {
       required: true,
     },
     techs: {
-      type: Array,
+      type: String,
       required: true,
     },
   },

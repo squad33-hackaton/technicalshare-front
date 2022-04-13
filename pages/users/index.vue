@@ -17,7 +17,7 @@
           :key="user.id"
           :username="user.name"
           :position="user.position"
-          :techs="user.techs"
+          :techs="user.techs.split(',').join(', ')"
           :isMentor="user.isMentor"
           :level="user.level"
         ></UserCard>
@@ -32,6 +32,7 @@ import { users } from "~/utils/mocks";
 
 export default {
   name: "Usuários",
+  layout: "default",
   components: { UserCard },
   data() {
     return {
@@ -54,7 +55,7 @@ export default {
 
 .main-container {
   min-height: 100vh;
-  padding: 20px;
+  padding: 20px 40px;
   background-color: #f0f0f0;
 }
 

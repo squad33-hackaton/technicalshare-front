@@ -6,7 +6,7 @@ export const users =  [
     isMentor: true,
     position: "Front-end",
     level: "Pleno",
-    techs: ["Vue.js", "Javascript", "HTML", "CSS", "MongoDB", "NuxtJS"],
+    techs: "Vue.js,Javascript,HTML,CSS,MongoDB,NuxtJS",
     links: {
       linkedin: "https://www.linkedin.com/in/murillobazilio/",
       teams: "https://www.microsoft.com/pt-br/microsoft-teams/log-in",
@@ -17,11 +17,11 @@ export const users =  [
   {
     id: 2,
     name: "Celso Tavares",
-    email: "",
+    email: "celsotavares@pm.me",
     isMentor: false,
     position: "Back-end",
     level: "Sênior",
-    techs: ["PHP", "MySQL"],
+    techs: "PHP, MySQL",
     links: {
       linkedin: "",
       teams: "",
@@ -36,7 +36,7 @@ export const users =  [
     isMentor: true,
     position: "UX/UI Design",
     level: "Pleno",
-    techs: ["Figma", "Design System", "Discovery", "Research", "Usabilidade"],
+    techs: "Figma, Design System, Discovery, Research, Usabilidade",
     links: {
       linkedin: "",
       teams: "",
@@ -51,7 +51,7 @@ export const users =  [
     isMentor: false,
     position: "UX/UI Design",
     level: "Junior",
-    techs: ["Adobe XD"],
+    techs: "Adobe XD",
     links: {
       linkedin: "",
       teams: "",
@@ -66,7 +66,7 @@ export const users =  [
     isMentor: false,
     position: "UX Design",
     level: "Sênior",
-    techs: ["Research" , "Discovery", "Usabilidade"],
+    techs: "Research , Discovery, Usabilidade",
     links: {
       linkedin: "",
       teams: "",
@@ -81,7 +81,7 @@ export const users =  [
     isMentor: false,
     position: "Full Stack",
     level: "Trainee",
-    techs: ["HTML", "CSS"],
+    techs: "HTML, CSS",
     links: {
       linkedin: "",
       teams: "",

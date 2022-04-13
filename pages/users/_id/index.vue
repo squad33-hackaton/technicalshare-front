@@ -2,10 +2,9 @@
   <div>
     <!-- TODO -> transformar UserDetails em componente -->
     <div
-      class="d-flex flex-column justify-content-center align-items-center"
+      class="d-flex flex-column align-items-center"
       style="background-color: #f0f0f0; min-height: 100vh"
     >
-      <h1>Perfil</h1>
       <div class="user-details">
         <div class="user-details-content">
           <div>
@@ -24,7 +23,7 @@
               Ferramentas que mais utiliza: <br />
               <small>{{ user.techs }}</small>
             </p>
-            <p class="mb-0">Conecte-se com {{ user.name }}</p>
+            <p class="mb-1">Conecte-se com {{ user.name }}</p>
             <div
               class="user-details-links d-flex align-items-center mb-3"
               style="gap: 3ch"
@@ -61,9 +60,18 @@
               v-model="message"
               id="userMessage"
               rows="3"
+              style="resize: none"
+              required
+              aria-describedby="helpBlock"
             ></textarea>
+            <small id="helpBlock" class="form-text text-muted"
+              ><i
+                >Você será redirecionado para seu serviço de email para enviar
+                sua dúvida ;)</i
+              ></small
+            >
           </div>
-          <button @click="submitMessage" class="form-btn mb-3">Salvar</button>
+          <button @click="submitMessage" class="form-btn mb-3">Enviar</button>
         </form>
       </div>
     </div>
@@ -71,10 +79,12 @@
 </template>
 
 <script>
+import swal from "sweetalert2";
 import { users } from "~/utils/mocks";
 
 export default {
   name: "User",
+  layout: "default",
   beforeMount() {
     let selectedUser = users.find(
       (user) => user.id === Number(this.$route.params.id)
@@ -103,9 +113,12 @@ export default {
   },
   methods: {
     submitMessage() {
-      window.open(
-        `mailto:${this.user.email}?subject=TechnicalShare - Dúvida de ${this.user.name}&body=${this.message}`
-      );
+      if (this.message) {
+        //TODO -> Inserir uma mensagem de envio de email com o sweetalert.
+        window.open(
+          `mailto:${this.user.email}?subject=TechnicalShare - Alguém te enviou uma mensagem!&body=${this.message}`
+        );
+      }
     },
   },
   computed: {},
@@ -122,6 +135,7 @@ export default {
   box-shadow: 4px 8px 11px -6px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   padding: 20px 40px;
+  margin-top: 20px;
 }
 
 .user-details-content {
@@ -160,11 +174,15 @@ export default {
   max-width: 65px;
 }
 
+.form-control {
+  border-radius: 20px;
+}
+
 @media (max-width: 767px) {
   .user-details {
     padding: 20px;
-    width: 100%;
-    margin: 20px;
+    width: auto;
+    margin: 10px;
   }
 
   .user-details-title {

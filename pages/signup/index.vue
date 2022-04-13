@@ -301,11 +301,12 @@ export default {
           isMentor: this.isMentor,
           position: this.position,
           level: this.level,
-          techs: this.techs.split(","),
+          techs: this.techs,
           links: this.links,
           //picture: this.picture
         };
         console.log(params);
+        //TODO -> /POST, feedback de cadastro e redirecionamento.
       } else {
         swal.fire({
           icon: "error",
@@ -413,5 +414,11 @@ form {
   font-size: 14px;
   font-weight: bold;
   color: #ffffff;
+}
+
+@media (max-width: 767px) {
+  .form-title {
+    font-size: 1.2rem;
+  }
 }
 </style>
