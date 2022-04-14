@@ -91,3 +91,26 @@ export const users =  [
   },
 ];
 
+export const positions = [
+{
+  value: '',
+  label: 'Todas as áreas'
+}, {
+  value: 'Front-end',
+  label: 'Front-end'
+}, {
+  value: 'Back-end',
+  label: 'Back-end'
+}, {
+  value: 'Full Stack',
+  label: 'Full Stack'
+}, {
+  value: 'UX Design',
+  label: 'UX Design'
+}, {
+  value: 'UI Design',
+  label: 'UI Design'
+}, {
+  value: 'UX/UI Design',
+  label: 'UX/UI Design'
+}]
