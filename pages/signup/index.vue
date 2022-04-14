@@ -4,6 +4,33 @@
     style="min-height: 100vh; background-color: #f0f0f0"
   >
     <form>
+      <input
+        type="file"
+        class="custom-file-input"
+        name="file-input"
+        id="file-input"
+        accept=".png,.jpg"
+        capture="camera"
+        ref="fileInput"
+      />
+      <img
+        v-if="pictureBase64"
+        style="max-width: 90px; max-height: 90px"
+        :src="pictureBase64"
+        alt="Confirmado"
+      />
+      <font-awesome-icon
+        v-else
+        icon="fa-solid fa-user"
+        style="font-size: 3rem"
+      />
+      <label
+        for="file-input"
+        class="form-btn mb-3"
+        style="cursor: pointer"
+        @click="setPicture"
+        >Selecionar foto de perfil
+      </label>
       <div class="form-group">
         <label for="name" class="form-title"
           >Qual o seu nome? <small>*</small></label
@@ -288,7 +315,7 @@ export default {
         teams: "",
         whatsapp: "",
       },
-      picture: "",
+      pictureBase64: "",
     };
   },
   methods: {
@@ -341,6 +368,20 @@ export default {
       });
       let selectedElement = document.getElementById(id);
       selectedElement.classList.add("selected");
+    },
+    setPicture() {
+      const FR = new FileReader();
+      FR.addEventListener("load", (e) => {
+        this.pictureBase64 = e.target.result;
+        if (e.target.error) {
+          this.pictureBase64 = e.target.error.message;
+        }
+      });
+      if (!this.$refs.fileInput.files.length) {
+        console.log("erro");
+        return;
+      }
+      FR.readAsDataURL(this.$refs.fileInput.files[0]);
     },
   },
   computed: {
