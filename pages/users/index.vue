@@ -7,8 +7,8 @@
       </h1>
       <p>
         Dentro da Technical Share você tem um cadastro fácil de uma lista de
-        pessoas que podem te ajudar a tirar alguma duvida ou até mesmo para você
-        conseguir melhorar o seu networking
+        pessoas que podem te ajudar a tirar alguma dúvida ou até mesmo para você
+        conseguir melhorar o seu networking.
       </p>
       <div class="select-container">
         <el-select v-model="selectedPosition" placeholder="Selecione uma área">
@@ -44,6 +44,15 @@ import { users, positions } from "~/utils/mocks";
 import { Option, Select } from "element-ui";
 
 export default {
+  async fetch() {
+    try {
+      let url = "//api.localhost";
+      let response = await this.$axios.$get(url + "/users");
+      this.userList = response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
   name: "Usuários",
   layout: "default",
   components: {
@@ -80,8 +89,7 @@ export default {
 
 .users-container {
   display: grid;
-  grid-template-columns: auto auto;
-  justify-content: center;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 1ch;
   margin-top: 16px;
 }

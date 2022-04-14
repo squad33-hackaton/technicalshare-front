@@ -21,7 +21,7 @@
             </p>
             <p class="user-details-techs">
               Ferramentas que mais utiliza: <br />
-              <small>{{ user.techs }}</small>
+              <small>{{ user.techs.split(";").join(", ") }}</small>
             </p>
             <p class="mb-1">Conecte-se com {{ user.name }}</p>
             <div
@@ -83,15 +83,29 @@ import swal from "sweetalert2";
 import { users } from "~/utils/mocks";
 
 export default {
+  //Se o backend não estiver funcionando por qualquer motivo, comentar a função fetch() e descomentar o beforeMount() para utilizar dados mockados.
+  async fetch() {
+    try {
+      console.log(this.$route.params.id);
+      let url = "//api.localhost";
+      let response = await this.$axios.$get(
+        url + `/users/${this.$route.params.id}`
+      );
+      console.log(response);
+      this.user = response;
+    } catch (e) {
+      console.log(e);
+    }
+  },
   name: "User",
   layout: "default",
-  beforeMount() {
-    let selectedUser = users.find(
-      (user) => user.id === Number(this.$route.params.id)
-    );
-    console.log(selectedUser);
-    this.user = selectedUser;
-  },
+  // beforeMount() {
+  //   let selectedUser = users.find(
+  //     (user) => user.id === Number(this.$route.params.id)
+  //   );
+  //   console.log(selectedUser);
+  //   this.user = selectedUser;
+  // },
   data() {
     return {
       user: {

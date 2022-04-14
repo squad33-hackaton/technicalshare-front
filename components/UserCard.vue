@@ -1,5 +1,5 @@
 <template>
-  <div class="user-card" @click="$emit('click')">
+  <div class="user-card fade-in" @click="$emit('click')">
     <!-- <img src="" alt="" class="user-card-avatar">  -->
     <font-awesome-icon icon="fa-solid fa-user" style="font-size: 3rem" />
     <div class="user-card-texts">
@@ -7,7 +7,7 @@
       <p class="user-card-title">{{ username }}</p>
       <p class="user-card-subtext">{{ position }} {{ level }}</p>
       <p class="user-card-techs">
-        <small>{{ techs.split(",").join(", ") }}</small>
+        <small>{{ techs.split(";").join(", ") }}</small>
       </p>
     </div>
   </div>
@@ -85,6 +85,57 @@ p {
   max-width: 65px;
 }
 
+.fade-in {
+  animation: fadeIn ease 500ms;
+  -webkit-animation: fadeIn ease 500ms;
+  -moz-animation: fadeIn ease 500ms;
+  -o-animation: fadeIn ease 500ms;
+  -ms-animation: fadeIn ease 500ms;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 @media (max-width: 767px) {
   .user-card {
     padding: 10px 20px;
