@@ -1,15 +1,17 @@
 <template>
   <div>
     <div class="main-container">
-      <h1 style="font-weight: 600">
-        Conheça os nossos Ricos em
-        <span style="color: #ff7a00">Vitamina C</span>
-      </h1>
-      <p>
-        Dentro da Technical Share você tem um cadastro fácil de uma lista de
-        pessoas que podem te ajudar a tirar alguma dúvida ou até mesmo para você
-        conseguir melhorar o seu networking.
-      </p>
+      <div class="text-container">
+        <h1 style="font-weight: 600">
+          Conheça os nossos Ricos em
+          <span style="color: #ff7a00">Vitamina C</span>
+        </h1>
+        <p>
+          Dentro da Technical Share você tem um cadastro fácil de uma lista de
+          pessoas que podem te ajudar a tirar alguma dúvida ou até mesmo para
+          você conseguir melhorar o seu networking.
+        </p>
+      </div>
       <div class="select-container">
         <el-select v-model="selectedPosition" placeholder="Selecione uma área">
           <el-option
@@ -21,7 +23,7 @@
           </el-option>
         </el-select>
       </div>
-      <div class="users-container">
+      <div class="users-container" v-if="!loading">
         <UserCard
           @click="userRedirect(user.id)"
           v-for="user in userList"
@@ -34,6 +36,7 @@
           v-show="selectedPosition === user.position || !selectedPosition"
         ></UserCard>
       </div>
+      <div v-else class="loader"></div>
     </div>
   </div>
 </template>
@@ -44,12 +47,15 @@ import { users, positions } from "~/utils/mocks";
 import { Option, Select } from "element-ui";
 
 export default {
-  async fetch() {
+  async beforeMount() {
     try {
+      this.loading = true;
       let url = "//api.localhost";
       let response = await this.$axios.$get(url + "/users");
       this.userList = response;
+      this.loading = false;
     } catch (e) {
+      this.loading = false;
       console.log(e);
     }
   },
@@ -63,9 +69,10 @@ export default {
   data() {
     return {
       name: "",
-      userList: users,
+      userList: [],
       positionList: positions,
       selectedPosition: "",
+      loading: false,
     };
   },
   methods: {
@@ -84,7 +91,14 @@ export default {
 .main-container {
   min-height: 100vh;
   padding: 20px 40px;
-  background-color: #f0f0f0;
+  background-image: url("~/assets/default-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.text-container {
+  margin-top: 60px;
 }
 
 .users-container {
@@ -97,6 +111,24 @@ export default {
 .select-container {
   display: flex;
   justify-content: flex-end;
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #fe5517;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 767px) {

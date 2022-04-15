@@ -1,7 +1,7 @@
 <template>
   <div
-    class="d-flex flex-column justify-content-center align-items-center"
-    style="min-height: 100vh; background-color: #f0f0f0"
+    class="d-flex flex-column align-items-center main-container"
+    style="min-height: 100vh"
   >
     <form>
       <div class="form-group">
@@ -178,7 +178,10 @@
       </div>
       <div class="form-group">
         <label for="name" class="form-title"
-          >Você se dispõe a ser mentor? <small>*</small></label
+          >Você se dispõe a ser mentor?<small>*</small><br />
+        </label>
+        <span style="font-size: 14px"
+          >(Você poderá receber dúvidas de outros usuários.)</span
         ><br />
         <div
           class="form-check form-check-inline mb-2 mentor-input"
@@ -227,7 +230,12 @@
       <div class="form-group">
         <label class="form-title">Links para você se conectar</label>
         <div class="d-flex align-items-center mb-2" style="gap: 1ch">
-          <font-awesome-icon icon="fab fa-linkedin" style="font-size: 32px" />
+          <img
+            src="~/assets/linkedin.svg"
+            alt="Logo do Linkedin"
+            height="28px"
+            width="28px"
+          />
           <input
             type="text"
             class="form-control"
@@ -252,13 +260,18 @@
           />
         </div>
         <div class="d-flex align-items-center mb-2" style="gap: 1ch">
-          <font-awesome-icon icon="fab fa-whatsapp" style="font-size: 32px" />
+          <img
+            src="~/assets/whatsapp.svg"
+            alt="Logo do Whatsapp"
+            height="28px"
+            width="28px"
+          />
           <input
             type="text"
             class="form-control"
             id="whatsapp"
             v-model="links.whatsapp"
-            placeholder="Whatsapp"
+            placeholder="Seu Whatsapp, com código de área e sem espaços ;)"
           />
         </div>
       </div>
@@ -292,32 +305,54 @@ export default {
     };
   },
   methods: {
-    submit() {
+    async submit() {
       if (!this.email) this.$router.push("/");
-      if (this.name && this.position && this.level) {
-        let params = {
-          name: this.name,
-          email: this.email,
-          isMentor: this.isMentor,
-          position: this.position,
-          level: this.level,
-          techs: this.techs,
-          links: this.links,
-          //picture: this.picture
-        };
-        console.log(params);
-        //TODO -> /POST, feedback de cadastro e redirecionamento.
-      } else {
+      try {
+        this.loading = true;
+        if (this.name && this.position && this.level) {
+          let params = {
+            name: this.name,
+            email: this.email,
+            isMentor: this.isMentor,
+            position: this.position,
+            level: this.level,
+            techs: this.techs,
+            links: this.links,
+            //picture: this.picture
+          };
+          console.log(params);
+          let url = "//api.localhost";
+          await this.$axios.$post(url + "/users", params);
+          console.log("User created!");
+          swal.fire(
+            "Cadastro realizado com sucesso!",
+            "Você será redirecionada(o) em instantes.",
+            "success"
+          );
+          setTimeout(() => this.$router.push("/users"), 2000);
+          this.loading = false;
+        } else {
+          this.loading = false;
+          swal.fire({
+            icon: "error",
+            title: "Ops...",
+            text: "Preencha todos os campos obrigatórios para prosseguir!",
+            footer:
+              "<i><small>Campos obrigatórios são marcados com asterisco.</small></i>",
+          });
+        }
+      } catch (e) {
+        this.loading = false;
         swal.fire({
           icon: "error",
           title: "Ops...",
-          text: "Preencha todos os campos obrigatórios para prosseguir!",
+          text: "Algo deu errado.",
           footer:
-            "<i><small>Campos obrigatórios são marcados com asterisco.</small></i>",
+            "<i><small>Entre em contato com a gente por email!</small></i>",
         });
+        console.log(e);
       }
     },
-    //As funções abaixo são claramente refatoráveis.
     selectPosition(id) {
       let allPositions = document.querySelectorAll(".position-input");
       allPositions.forEach((element) => {
@@ -356,8 +391,16 @@ export default {
   font-family: "Manrope";
 }
 
+.main-container {
+  background-image: url("~/assets/default-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 form {
-  padding: 20px;
+  margin-top: 70px;
+  padding: 0 20px 20px 20px;
 }
 
 .form-check {

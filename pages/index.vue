@@ -1,7 +1,7 @@
 <template>
   <div
-    class="d-flex flex-column"
-    style="min-height: 100vh; background-color: #ff7a00"
+    class="d-flex flex-column justify-content-center main-container"
+    style="min-height: 100vh"
   >
     <div
       class="d-flex flex-column justify-content-center align-items-center text-center border-0 login-card"
@@ -9,7 +9,7 @@
     >
       <div>
         <img
-          src="~/assets/logo.png"
+          src="~/assets/logo.svg"
           class="logo"
           alt="Logo da TechnicalShare"
         />
@@ -29,7 +29,7 @@
         >
           Criar perfil
         </button>
-        <NuxtLink to="/users" class="default-btn"> Entrar </NuxtLink>
+        <button @click="redirectToUsers" class="default-btn">Entrar</button>
       </div>
     </div>
   </div>
@@ -44,14 +44,46 @@ export default {
   data() {
     return {
       email: "",
+      loading: false,
     };
   },
   methods: {
-    redirectToSignup() {
-      if (this.email) {
+    async redirectToSignup() {
+      this.loading = true;
+      if (!this.email) {
+        swal.fire("Preencha com seu email ;)");
+        this.loading = false;
+        return;
+      }
+      let url = "//api.localhost";
+      let response = await this.$axios.$get(url + `/users?email=${this.email}`);
+      if (response) {
+        swal.fire("Email já cadastrado! Utilize o botão de login.");
+        this.loading = false;
+        return;
+      } else if (this.email && !response) {
         let params = this.email;
+        this.loading = false;
         this.$router.push({ path: "/signup", query: { email: params } });
-      } else swal.fire("Preencha com seu email ;)");
+      }
+    },
+    async redirectToUsers() {
+      this.loading = true;
+      if (!this.email) {
+        swal.fire("Preencha com seu email ;)");
+        this.loading = false;
+        return;
+      }
+      let url = "//api.localhost";
+      let response = await this.$axios.$get(url + `/users?email=${this.email}`);
+      if (!response) {
+        swal.fire('Email não encontrado. Utilize o botão de "Criar perfil"');
+        this.loading = false;
+        return;
+      } else if (this.email && response) {
+        this.loading = false;
+        this.$router.push({ path: "/users" });
+      }
     },
   },
 };
@@ -62,8 +94,15 @@ export default {
   font-family: "Manrope";
 }
 
+.main-container {
+  background-image: url("~/assets/login-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .logo {
-  max-width: 400px;
+  min-width: 420px;
 }
 
 .sub-title {
@@ -76,6 +115,7 @@ export default {
   min-height: 520px;
   gap: 1ch;
   margin: 20px auto;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .default-btn {
@@ -83,7 +123,7 @@ export default {
   color: #111111;
   border-radius: 15px;
   border: none;
-  padding: 10px 20px;
+  padding: 10px;
   width: 100%;
   font-size: 1.1rem;
   min-width: 150px;
@@ -97,21 +137,23 @@ export default {
 
 @media (max-width: 640px) {
   .logo {
-    max-width: 300px;
+    min-width: 280px;
   }
   .login-card {
     min-height: 400px;
     max-width: 100%;
     padding: 0px 10px;
-    margin-top: 40px;
+    margin: 40px 10px 10px 10px;
   }
   .sub-title {
     font-size: 3.5vw;
     font-weight: bold;
   }
   .default-btn {
+    min-width: 100px;
     max-width: 120px;
-    padding: 10px;
+    padding: 5px;
+    font-size: 3.5vw;
   }
 }
 </style>

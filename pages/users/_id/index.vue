@@ -2,8 +2,8 @@
   <div>
     <!-- TODO -> transformar UserDetails em componente -->
     <div
-      class="d-flex flex-column align-items-center"
-      style="background-color: #f0f0f0; min-height: 100vh"
+      class="d-flex flex-column align-items-center justify-content-center main-container"
+      style="min-height: 100vh"
     >
       <div class="user-details">
         <div class="user-details-content">
@@ -21,19 +21,37 @@
             </p>
             <p class="user-details-techs">
               Ferramentas que mais utiliza: <br />
-              <small>{{ user.techs.split(";").join(", ") }}</small>
+
+              <b>{{ user.techs.split(";").join(", ") }}</b>
             </p>
-            <p class="mb-1">Conecte-se com {{ user.name }}</p>
+            <p
+              v-if="
+                user.links.linkedin || user.links.whatsapp || user.links.teams
+              "
+              class="mb-1"
+            >
+              Conecte-se com {{ user.name }}
+            </p>
             <div
               class="user-details-links d-flex align-items-center mb-3"
               style="gap: 3ch"
             >
-              <a target="_blank" :href="this.user.links.linkedin">
-                <font-awesome-icon
-                  icon="fab fa-linkedin"
-                  style="font-size: 32px"
+              <a
+                target="_blank"
+                :href="this.user.links.linkedin"
+                v-if="user.links.linkedin"
+              >
+                <img
+                  src="~/assets/linkedin.svg"
+                  alt="Logo do Linkedin"
+                  height="28px"
+                  width="28px"
               /></a>
-              <a target="_blank" :href="this.user.links.teams">
+              <a
+                target="_blank"
+                :href="this.user.links.teams"
+                v-if="user.links.teams"
+              >
                 <img
                   src="~/assets/teams.svg"
                   alt="Logo do Microsoft Teams"
@@ -41,16 +59,22 @@
                   width="28px"
                 />
               </a>
-              <a target="_blank" :href="this.user.links.whatsapp">
-                <font-awesome-icon
-                  icon="fab fa-whatsapp"
-                  style="font-size: 32px"
+              <a
+                target="_blank"
+                :href="whatsappRedirect"
+                v-if="user.links.whatsapp"
+              >
+                <img
+                  src="~/assets/whatsapp.svg"
+                  alt="Logo do Whatsapp"
+                  height="28px"
+                  width="28px"
                 />
               </a>
             </div>
           </div>
         </div>
-        <form>
+        <form v-if="user.isMentor">
           <div class="form-group d-flex flex-column">
             <label for="userMessage"
               >Tire suas dúvidas com {{ user.name }}</label
@@ -79,19 +103,15 @@
 </template>
 
 <script>
-import swal from "sweetalert2";
 import { users } from "~/utils/mocks";
 
 export default {
-  //Se o backend não estiver funcionando por qualquer motivo, comentar a função fetch() e descomentar o beforeMount() para utilizar dados mockados.
-  async fetch() {
+  async beforeMount() {
     try {
-      console.log(this.$route.params.id);
       let url = "//api.localhost";
       let response = await this.$axios.$get(
         url + `/users/${this.$route.params.id}`
       );
-      console.log(response);
       this.user = response;
     } catch (e) {
       console.log(e);
@@ -135,7 +155,11 @@ export default {
       }
     },
   },
-  computed: {},
+  computed: {
+    whatsappRedirect() {
+      return "//wa.me/" + this.user.links.whatsapp;
+    },
+  },
 };
 </script>
 
@@ -144,12 +168,20 @@ export default {
   font-family: "Manrope";
 }
 
+.main-container {
+  background-image: url("~/assets/default-bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .user-details {
   background-color: #fff;
   box-shadow: 4px 8px 11px -6px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   padding: 20px 40px;
   margin-top: 20px;
+  min-width: 500px;
 }
 
 .user-details-content {
@@ -197,6 +229,7 @@ export default {
     padding: 20px;
     width: auto;
     margin: 10px;
+    min-width: auto;
   }
 
   .user-details-title {

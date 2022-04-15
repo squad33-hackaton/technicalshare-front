@@ -30,7 +30,7 @@ export default {
       required: true,
     },
     isMentor: {
-      type: Boolean,
+      type: Number || Boolean,
       required: true,
     },
     techs: {

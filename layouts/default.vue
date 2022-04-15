@@ -5,7 +5,9 @@
         <font-awesome-icon icon="fas fa-arrow-circle-left" class="back-arrow" />
       </NuxtLink>
       <p class="page-title mb-0">{{ getRouteName }}</p>
-      <div><!--  --></div>
+      <div class="desktop-only">
+        <img src="~/assets/logo.svg" alt="TechnicalShare" width="180" />
+      </div>
     </div>
     <Nuxt />
   </div>
@@ -27,7 +29,9 @@ export default {
 
 <style scoped>
 .header-container {
-  background-color: #f0f0f0;
+  background-color: rgba(0, 0, 0, 0);
+  position: absolute;
+  width: 100%;
   padding: 20px;
   top: 0px;
   display: flex;
@@ -54,6 +58,9 @@ export default {
   .page-title {
     font-size: 16px;
     font-weight: bold;
+  }
+  .desktop-only {
+    display: none;
   }
 }
 </style>
