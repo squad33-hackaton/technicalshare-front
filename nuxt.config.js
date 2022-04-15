@@ -4,7 +4,7 @@ export default {
     port: 3009
   },
   head: {
-    title: 'technicalshare-front',
+    title: 'TechnicalShare',
     htmlAttrs: {
       lang: 'en'
     },
@@ -15,7 +15,10 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css'},
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700&display=swap'},
+      { rel: 'stylesheet', href: 'https://unpkg.com/element-ui/lib/theme-chalk/index.css'},
     ]
   },
 
@@ -32,7 +35,15 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/fontawesome'
   ],
+
+  fontawesome: {
+    icons: {
+      solid: true,
+      brands: true
+    }
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -50,5 +61,25 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+    analyze: false,
+    transpile: [/^element-ui/],
+    /*
+    ** You can extend webpack config here
+    */
+    extend (config, ctx) {
+    },
+    babel: {
+      plugins: [
+        [
+          'component',
+          {
+            'libraryName': 'element-ui',
+            'styleLibraryName': 'theme-chalk'
+          }
+        ],
+        ['@babel/plugin-proposal-private-methods', { loose: true }]
+      ]
+    }
+  },
+  
 };
