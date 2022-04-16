@@ -127,7 +127,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 <br>
 <img src="https://miro.medium.com/max/1400/1*lTXfT4TGuzze-xVTVpCnaA.png">
 <br>
-<p>E aos queridos mentores: Danilo Barberini, Maria Letícia, Ismael Reis, Giovanna Tassinari, Gustavo Martins, Carlos Eduardo (Kadu) e Michael/Maicol.</p>
+<p>E aos queridos mentores Danilo Barberini, Maria Letícia, Ismael Reis, Giovanna Tassinari, Gustavo Martins, Carlos Eduardo (Kadu) e Michael/Maicol, nosso <b>muito obrigado</b>!</p>
 
 ---
 
