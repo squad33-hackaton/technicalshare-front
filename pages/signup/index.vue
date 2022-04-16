@@ -223,7 +223,7 @@
           class="form-control"
           id="tech"
           v-model="techs"
-          placeholder="Utilize apenas vírgulas (sem espaços) para separar as ferramentas."
+          placeholder="Utilize apenas ; (sem espaços) para separar as ferramentas."
           required
         />
       </div>
